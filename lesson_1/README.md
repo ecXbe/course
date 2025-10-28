@@ -1,9 +1,10 @@
 # Git Lesson
 
-**Developed on:** 12 July 2025  
-**Lesson conducted on:** 15 October 2025
+<p align="center">
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&pause=1000&center=true&vCenter=true&width=435&lines=ec%C3%97be" alt="Typing SVG" />
+</p>
 
-This repository contains materials for a git lesson including homework and presentation.
+Информация обо мне в этом [видео](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 ## Files
 
