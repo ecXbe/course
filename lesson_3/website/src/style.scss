@@ -1,17 +1,37 @@
-$bl-color: #020202;
-$gr-color: #252525;
-$l-gr-color: #C4C4C4;
-$yl-color: #FFB800;
-$wh-color: #FFFFFF;
 $mini: 560px;
 $mobile: 768px;
 $tablet: 960px;
+
+:root {
+  --bl-color: #020202;
+  --gr-color: #252525;
+  --wh-color: #FFFFFF;
+  --l-gr-color: #C4C4C4;
+  --yl-color: #FFB800;
+  --gr-color: #252525;
+}
 
 
 /* -- GENERAL -- */
 
 html {
   scroll-behavior: smooth;
+
+  &[data-theme="light"] {
+    --bl-color: #FFFFFF;
+    --gr-color: #5e5e5e;
+    --wh-color: #020202;
+
+    .choose_theme .theme_light {
+      display: none;
+    }
+  }
+
+  &[data-theme="dark"] {
+    .choose_theme .theme_dark {
+      display: none;
+    }
+  }
 }
 
 body {
@@ -26,15 +46,15 @@ h1, h2, h3 {
 }
 
 h1 {
-    color: $yl-color;
+    color: var(--yl-color);
 }
 
 h2, h3 {
-    color: $wh-color;
+    color: var(--wh-color);
 }
 
 p {
-    color: $wh-color;
+    color: var(--wh-color);
 }
 
 .title-top {
@@ -111,16 +131,62 @@ p {
 /* -- HEADER -- */
 
 header {
-  color: $wh-color;
-  background: $bl-color;
   display: flex;
+  position: fixed;
+  width: 100%;
+  color: var(--wh-color);
+  background: var(--bl-color);
   justify-content: end;
   z-index: 999;
+
+  .clock {
+    display: flex;
+    flex: 1;
+    width: 72px;
+    font-weight: bold;
+    align-items: end;
+    margin: 0 0 0 2vw;
+
+    @include mobile {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-75%) translateY(100%);
+      justify-content: end;
+    }
+  }
+
+  .choose_theme {
+    position: fixed;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    outline: none;
+    right: 15px;
+    top: 18px;
+    width: 30px;
+    height: 30px;
+
+    .choose_theme--icon {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      top: 50%;
+      left: 50%;
+      margin-top: -12.5px;
+      margin-left: -12.5px;
+
+      path {
+        fill: var(--wh-color);
+        stroke: var(--wh-color);
+      }
+    }
+  }
 
   .burger {
     display: none;
     flex-direction: column;
     justify-content: center;
+    width: 25px;
     cursor: pointer;
     padding: 5px;
     margin: 2vh 0 0 2.5vw;
@@ -130,14 +196,79 @@ header {
       display: block;
       width: 25px;
       height: 3px;
-      background-color: $wh-color;
+      background-color: var(--wh-color);
       margin: 2px 0;
       transition: 0.3s;
+    }
+
+    @include mobile {
+      display: flex;
     }
   }
 
   .anchor {
+    position: relative;
     margin-right: 5vw;
+
+    > a.active {
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        left: 0;
+        bottom: -1px;
+        background-color: var(--yl-color);
+
+        @include mobile {
+          display: none;
+        }
+      }
+
+      @include mobile {
+        background: var(--yl-color);
+      }
+    }
+
+    @include mobile {
+      display: none;
+
+      &.active {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+
+        > * {
+          text-align: center;
+          width: 100%;
+          margin: 2.5vh 0 0 0;
+        }
+      }
+    }
+  }
+
+  &:after {
+    content: " ";
+    background-color: var(--bl-color);
+    -webkit-mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1920px" height="39px"><path d="M1877.759,23.791 L1874.461,20.504 L1879.969,15.027 L1868.965,15.027 L1874.461,20.504 L1871.156,23.791 L1789.442,23.791 L1784.749,28.484 L1775.502,37.704 L1769.337,31.559 L1738.089,31.695 L1733.080,31.695 L1720.422,19.079 L1686.790,19.079 L1679.552,26.293 L1386.290,26.255 L1380.520,20.508 L1371.871,29.132 L1368.980,26.255 L1203.819,26.293 L1191.058,38.996 L1167.007,15.027 L1167.000,15.038 L1166.989,15.027 L1157.936,24.049 L1154.094,24.049 L1151.994,21.956 L1155.330,18.643 L1148.674,18.643 L1151.994,21.956 L1149.933,24.007 L1072.000,24.040 L1072.000,24.049 L1061.000,24.044 L1050.000,24.049 L1050.000,24.040 L972.067,24.007 L970.005,21.956 L973.326,18.643 L966.670,18.643 L970.005,21.956 L967.906,24.049 L964.064,24.049 L955.012,15.027 L955.000,15.038 L954.993,15.027 L930.942,38.996 L918.181,26.293 L818.020,26.255 L815.129,29.132 L806.480,20.508 L800.710,26.255 L661.448,26.293 L654.209,19.079 L620.578,19.079 L607.919,31.695 L602.910,31.695 L571.663,31.559 L565.497,37.704 L556.251,28.484 L551.557,23.791 L469.844,23.791 L466.539,20.504 L472.035,15.027 L461.031,15.027 L466.539,20.504 L463.241,23.791 L204.638,23.791 L195.467,15.027 L195.449,15.049 L195.426,15.027 L179.458,31.695 L166.537,31.695 L158.884,24.049 L0.001,24.049 L0.001,-0.012 L1919.998,-0.012 L1919.998,24.049 L1877.759,23.791 ZM228.624,15.027 L226.889,15.027 L226.889,20.205 L228.624,20.205 L228.624,15.027 ZM231.248,15.027 L229.518,15.027 L229.518,20.205 L231.248,20.205 L231.248,15.027 ZM243.370,15.027 L241.640,15.027 L241.640,20.205 L243.370,20.205 L243.370,15.027 ZM264.168,15.027 L258.973,15.027 L258.973,20.205 L264.168,20.205 L264.168,15.027 ZM584.675,24.989 L582.941,24.989 L582.941,26.714 L584.675,26.714 L584.675,24.989 ZM591.316,21.536 L589.582,21.536 L589.582,26.714 L591.316,26.714 L591.316,21.536 ZM604.751,21.536 L603.017,21.536 L603.017,23.260 L604.751,23.260 L604.751,21.536 ZM604.751,24.989 L603.017,24.989 L603.017,26.714 L604.751,26.714 L604.751,24.989 ZM1737.983,21.536 L1736.249,21.536 L1736.249,23.260 L1737.983,23.260 L1737.983,21.536 ZM1737.983,24.989 L1736.249,24.989 L1736.249,26.714 L1737.983,26.714 L1737.983,24.989 ZM1751.418,21.536 L1749.683,21.536 L1749.683,26.714 L1751.418,26.714 L1751.418,21.536 ZM1758.059,24.989 L1756.324,24.989 L1756.324,26.714 L1758.059,26.714 L1758.059,24.989 ZM1877.785,23.818 L1871.129,23.818 L1871.156,23.791 L1877.759,23.791 L1877.785,23.818 ZM1367.778,33.211 L1371.871,29.132 L1375.975,33.211 L1367.778,33.211 ZM469.871,23.818 L463.214,23.818 L463.241,23.791 L469.844,23.791 L469.871,23.818 Z"/></svg>');
+    -webkit-mask-repeat: repeat-x;
+    -webkit-mask-position: bottom;
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1920px" height="39px"><path d="M1877.759,23.791 L1874.461,20.504 L1879.969,15.027 L1868.965,15.027 L1874.461,20.504 L1871.156,23.791 L1789.442,23.791 L1784.749,28.484 L1775.502,37.704 L1769.337,31.559 L1738.089,31.695 L1733.080,31.695 L1720.422,19.079 L1686.790,19.079 L1679.552,26.293 L1386.290,26.255 L1380.520,20.508 L1371.871,29.132 L1368.980,26.255 L1203.819,26.293 L1191.058,38.996 L1167.007,15.027 L1167.000,15.038 L1166.989,15.027 L1157.936,24.049 L1154.094,24.049 L1151.994,21.956 L1155.330,18.643 L1148.674,18.643 L1151.994,21.956 L1149.933,24.007 L1072.000,24.040 L1072.000,24.049 L1061.000,24.044 L1050.000,24.049 L1050.000,24.040 L972.067,24.007 L970.005,21.956 L973.326,18.643 L966.670,18.643 L970.005,21.956 L967.906,24.049 L964.064,24.049 L955.012,15.027 L955.000,15.038 L954.993,15.027 L930.942,38.996 L918.181,26.293 L818.020,26.255 L815.129,29.132 L806.480,20.508 L800.710,26.255 L661.448,26.293 L654.209,19.079 L620.578,19.079 L607.919,31.695 L602.910,31.695 L571.663,31.559 L565.497,37.704 L556.251,28.484 L551.557,23.791 L469.844,23.791 L466.539,20.504 L472.035,15.027 L461.031,15.027 L466.539,20.504 L463.241,23.791 L204.638,23.791 L195.467,15.027 L195.449,15.049 L195.426,15.027 L179.458,31.695 L166.537,31.695 L158.884,24.049 L0.001,24.049 L0.001,-0.012 L1919.998,-0.012 L1919.998,24.049 L1877.759,23.791 ZM228.624,15.027 L226.889,15.027 L226.889,20.205 L228.624,20.205 L228.624,15.027 ZM231.248,15.027 L229.518,15.027 L229.518,20.205 L231.248,20.205 L231.248,15.027 ZM243.370,15.027 L241.640,15.027 L241.640,20.205 L243.370,20.205 L243.370,15.027 ZM264.168,15.027 L258.973,15.027 L258.973,20.205 L264.168,20.205 L264.168,15.027 ZM584.675,24.989 L582.941,24.989 L582.941,26.714 L584.675,26.714 L584.675,24.989 ZM591.316,21.536 L589.582,21.536 L589.582,26.714 L591.316,26.714 L591.316,21.536 ZM604.751,21.536 L603.017,21.536 L603.017,23.260 L604.751,23.260 L604.751,21.536 ZM604.751,24.989 L603.017,24.989 L603.017,26.714 L604.751,26.714 L604.751,24.989 ZM1737.983,21.536 L1736.249,21.536 L1736.249,23.260 L1737.983,23.260 L1737.983,21.536 ZM1737.983,24.989 L1736.249,24.989 L1736.249,26.714 L1737.983,26.714 L1737.983,24.989 ZM1751.418,21.536 L1749.683,21.536 L1749.683,26.714 L1751.418,26.714 L1751.418,21.536 ZM1758.059,24.989 L1756.324,24.989 L1756.324,26.714 L1758.059,26.714 L1758.059,24.989 ZM1877.785,23.818 L1871.129,23.818 L1871.156,23.791 L1877.759,23.791 L1877.785,23.818 ZM1367.778,33.211 L1371.871,29.132 L1375.975,33.211 L1367.778,33.211 ZM469.871,23.818 L463.214,23.818 L463.241,23.791 L469.844,23.791 L469.871,23.818 Z"/></svg>');
+    mask-repeat: repeat-x;
+    mask-position: bottom;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    height: 30px;
+    z-index: 10;
+  }
+
+  @include mobile {
+    justify-content: start;
+    flex-direction: column;
   }
 }
 
@@ -150,10 +281,10 @@ header {
   @include segment_size(800px, 5vh);
 
   flex-direction: column;
-  background: $bl-color;
+  background: var(--bl-color);
 
   .circle-img {
-    background: $l-gr-color;
+    background: var(--l-gr-color);
     width: 250px;
     height: 250px;
     border-radius: 50%;
@@ -164,7 +295,7 @@ header {
   }
 
   .info {
-    color: $wh-color;
+    color: var(--wh-color);
     margin: 0;
   }
 }
@@ -177,10 +308,10 @@ header {
   @include segment;
   @include segment_size(634px, 5vh);
 
-  background: $gr-color; 
+  background: var(--gr-color); 
 
   .rectangle-img {
-    background-color: $l-gr-color;
+    background-color: var(--l-gr-color);
     width: 330px;
     height: 420px;
     border-radius: 20px;
@@ -196,7 +327,7 @@ header {
 
     &:after {
       content: "";
-      background: $wh-color;
+      background: var(--wh-color);
       width: 70px;
       height: 3px;
       margin-left: 1.5vw;
@@ -215,7 +346,7 @@ header {
     gap: 15px;
     padding: 0;
     margin-top: .5vh;
-    color: $wh-color;
+    color: var(--wh-color);
 
     li {
       display: flex;
@@ -223,7 +354,7 @@ header {
 
       &:before {
         content: "";
-        background: $yl-color;
+        background: var(--yl-color);
         width: 10px;
         height: 10px;
         border-radius: 50%;
@@ -258,7 +389,7 @@ header {
 .work {
   @include segment_size(700px, 5vh);
 
-  background: $bl-color; 
+  background: var(--bl-color); 
 
   .gallery {
     display: grid;
@@ -274,7 +405,7 @@ header {
     .gallery__img {
       width: 200px;
       height: 150px;
-      background: $l-gr-color;
+      background: var(--l-gr-color);
       border-radius: 20px;
       transition: all ease-in-out .2s;
 
@@ -326,7 +457,7 @@ header {
 .blog {
   @include segment_size(700px, 5vh);
 
-  background: $gr-color;
+  background: var(--gr-color);
 
   .info-gallery {
     display: flex;
@@ -335,7 +466,7 @@ header {
     .info-gallery__card {
       display: flex;
       flex-direction: column;
-      background: $bl-color;
+      background: var(--bl-color);
       width: 280px;
       max-width: 90vw;
       min-height: 378px;
@@ -349,7 +480,7 @@ header {
       h2 {
         display: flex;
         justify-content: center;
-        color: $yl-color;
+        color: var(--yl-color);
         padding-top: 4vh;
         margin-bottom: 2vh;
       }
@@ -365,7 +496,7 @@ header {
 
         a {
           text-decoration: none;
-          color: $yl-color;
+          color: var(--yl-color);
 
           &:hover {
             filter: brightness(0.8);
@@ -397,7 +528,7 @@ header {
 .contact {
   @include segment_size(700px, 5vh);
 
-  background: $bl-color;
+  background: var(--bl-color);
 
   .contact__text {
     display: flex;
@@ -417,7 +548,7 @@ header {
     }
 
     label {
-      color: $wh-color;
+      color: var(--wh-color);
       margin-bottom: .6vh;
     }
 
@@ -426,13 +557,13 @@ header {
       height: 50px;
       border: none;
       border-radius: 10px;
-      background: $gr-color;
+      background: var(--gr-color);
       text-indent: .5vw;
-      margin-bottom: 2.5vh;
-      color: $wh-color;
+      margin-bottom: .5vh;
+      color: var(--wh-color);
 
       &::placeholder {
-        color: $wh-color;
+        color: var(--wh-color);
         font-size: 14px;
       }
     }
@@ -441,31 +572,46 @@ header {
       textarea {
         min-width: 300px;
         max-width: 300px;
-        height: 104px;
+        min-height: 104px;
         height: 104px;
         border: none;
         border-radius: 10px;
-        background: $gr-color;
+        background: var(--gr-color);
         text-indent: .5vw;
-        margin-bottom: 2.5vh;
-        color: $wh-color;
+        margin-bottom: .5vh;
+        color: var(--wh-color);
 
         &::placeholder {
-          color: $wh-color;
+          color: var(--wh-color);
           font-size: 14px;
         }
       }
     }
   }
 
+  .error {
+    color: red;
+    margin-bottom: 2.5vh;
+  }
+
+  .sent {
+    color: green;
+    margin-right: 1.5vw;
+  }
+
+  .contact__input--send {
+    display: flex;
+    flex-direction: row;
+  }
+
   .contact--send {
-    background: $yl-color;
+    background: var(--yl-color);
     width: 128px;
     height: 33px;
     border: none;
     border-radius: 10px;
     margin-left: auto;
-    color: $bl-color;
+    color: var(--bl-color);
     justify-content: center;
     align-items: center;
     font-size: 14px;
@@ -496,7 +642,7 @@ header {
 
 footer {
   height: 197px;
-  background: $yl-color;
+  background: var(--yl-color);
 
   > * {
     display: flex;
@@ -508,7 +654,7 @@ footer {
   }
 
   h1 {
-    color: $bl-color;
+    color: var(--bl-color);
   }
 
   span {
