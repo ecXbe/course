@@ -48,10 +48,13 @@ function validateMessage(): boolean {
     return true;
 }
 
+
 let savedTheme = localStorage.getItem("theme");
 if (savedTheme) {
     $("html").attr('data-theme', savedTheme);
 }
+
+
 
 $(".choose_theme").on("click", function() {
     let currentTheme = $("html").attr('data-theme');
@@ -62,13 +65,10 @@ $(".choose_theme").on("click", function() {
 });
 
 $(".burger").on("click", function() {
+    $("header").toggleClass("active");
     $(".anchor.top").toggleClass("active"); 
 });
 
-UpdateClock();
-setInterval(function() {
-    UpdateClock();
-}, 1000);
 
 $(window).on("scroll", function() {
     let windowScrollTop = $(window).scrollTop();
@@ -87,6 +87,7 @@ $(window).on("scroll", function() {
         }
     });
 });
+
 
 let $name = $("input#name");
 let $nameError = $("#nameError");
@@ -107,3 +108,8 @@ $sendMessageButton.on("click", function() {
     }
 });
 
+
+UpdateClock();
+setInterval(function() {
+    UpdateClock();
+}, 1000);
