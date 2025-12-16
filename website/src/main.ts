@@ -1,5 +1,7 @@
 import './style.scss';
 import $ from 'jquery';
+import { renderSkills } from "./assets/ts/Skills"
+import { initThemes } from './assets/ts/Themes';
 
 function formatTime(value: number): string {
     return value < 10 ? "0" + value : value.toString();
@@ -48,20 +50,10 @@ function validateMessage(): boolean {
     return true;
 }
 
-
-let savedTheme = localStorage.getItem("theme");
-if (savedTheme) {
-    $("html").attr('data-theme', savedTheme);
-}
-
-
+initThemes();
 
 $(".choose_theme").on("click", function() {
-    let currentTheme = $("html").attr('data-theme');
-    let newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-    $("html").attr('data-theme', newTheme);
-    localStorage.setItem("theme", newTheme);
+    $(".theme_manager").toggleClass("active");
 });
 
 $(".burger").on("click", function() {
@@ -69,6 +61,8 @@ $(".burger").on("click", function() {
     $(".anchor.top").toggleClass("active"); 
 });
 
+let $skills_container = $("ul.skill_list");
+if ($skills_container.length) renderSkills($skills_container);
 
 $(window).on("scroll", function() {
     let windowScrollTop = $(window).scrollTop();
@@ -79,7 +73,7 @@ $(window).on("scroll", function() {
         if (!offset) return;
         
         if (windowScrollTop >= offset.top - 100) {
-            const id = $(this).attr('id');
+            let id = $(this).attr('id');
             if (!id) return;
             
             $('.anchor.top a').removeClass('active');

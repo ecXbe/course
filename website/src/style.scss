@@ -16,22 +16,6 @@ $tablet: 960px;
 
 html {
   scroll-behavior: smooth;
-
-  &[data-theme="light"] {
-    --bl-color: #FFFFFF;
-    --gr-color: #5e5e5e;
-    --wh-color: #020202;
-
-    .choose_theme .theme_light {
-      display: none;
-    }
-  }
-
-  &[data-theme="dark"] {
-    .choose_theme .theme_dark {
-      display: none;
-    }
-  }
 }
 
 body {
@@ -181,6 +165,69 @@ header {
         fill: var(--wh-color);
         stroke: var(--wh-color);
       }
+    }
+  }
+
+  .theme_manager {
+    overflow: hidden;
+    transition: transform .2s ease-in-out;
+    position: fixed;
+    display: flex;
+    transform: translateY(-260px);
+    background-color: var(--bl-color);
+    flex-direction: column;
+    align-items: end;
+    padding: 10px;
+    border-radius: 8px;
+    z-index: 999;
+
+    &.active {
+      transform: translateY(55px);
+    }
+
+    select {
+      margin-bottom: 2.5vh;
+      width: 100%;
+      border: none;
+      border-radius: 4px;
+
+      @include mobile {
+        height: 35px;
+      }
+    }
+
+    label {
+      margin-bottom: 1.4vh;
+
+      @include mobile {
+        width: 100%;
+      }
+    }
+
+    input#theme-name {
+      width: 150px;
+      height: 25px;
+      border: none;
+      border-radius: 10px;
+      background: var(--gr-color);
+      text-indent: .5vw;
+      margin-bottom: .5vh;
+      color: var(--wh-color);
+    }
+
+    button {
+      width: 100%;
+      height: 20px;
+      border: none;
+      border-radius: 6px;
+
+      @include mobile {
+        height: 30px;
+      }
+    }
+
+    @include mobile {
+      width: 98vw;
     }
   }
 
